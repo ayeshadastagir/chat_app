@@ -1,16 +1,33 @@
 # chat_app
 
-A new Flutter project.
+one to one chat app 
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+sql for supabase 
+CREATE TABLE profiles (
+  id uuid primary key references auth.users(id) on delete cascade,
+  email TEXT NOT NULL,
+  username TEXT NOT NULL,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
 
-A few resources to get you started if this is your first Flutter project:
+create table chatroom(
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  sender_id UUID REFERENCES profiles(id) on delete cascade,
+  receiver_id UUID REFERENCES profiles(id) on delete cascade,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+CREATE TABLE messages (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  sender_id UUID REFERENCES profiles(id) on delete cascade,
+  chatroom_id UUID REFERENCES chatroom(id) on delete cascade,
+  content TEXT NOT NULL,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+-- Enable Realtime for the messages table
+ALTER PUBLICATION supabase_realtime ADD TABLE messages;
+
+
