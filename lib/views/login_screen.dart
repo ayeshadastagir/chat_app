@@ -1,0 +1,80 @@
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+import '../controllers/login_controller.dart';
+
+class LoginScreen extends StatelessWidget {
+  LoginScreen({super.key});
+
+  final LoginController controller = Get.put(LoginController());
+  @override
+  Widget build(BuildContext context) {
+
+    return Scaffold(
+      appBar: AppBar(title: Text('Login'), centerTitle: true, automaticallyImplyLeading: false,),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.all(16.0),
+          child: Form(
+            key: controller.formKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'Welcome Back',
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                ),
+                SizedBox(height: 30),
+        
+                // Email Field
+                TextFormField(
+                  controller: controller.emailController,
+                  decoration: InputDecoration(
+                    labelText: 'Email',
+                    border: OutlineInputBorder(),
+                    prefixIcon: Icon(Icons.email),
+                  ),
+                  keyboardType: TextInputType.emailAddress,
+                  validator: controller.validateEmail,
+                ),
+                SizedBox(height: 16),
+        
+                // Password Field
+                TextFormField(
+                  controller: controller.passwordController,
+                  decoration: InputDecoration(
+                    labelText: 'Password',
+                    border: OutlineInputBorder(),
+                    prefixIcon: Icon(Icons.lock),
+                  ),
+                  obscureText: true,
+                  validator: controller.validatePassword,
+                ),
+                SizedBox(height: 24),
+        
+                // Login Button
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: controller.handleLogin,
+                    child: Text('Login'),
+                    style: ElevatedButton.styleFrom(
+                      padding: EdgeInsets.symmetric(vertical: 16),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 16),
+        
+                // Sign Up Button
+                TextButton(
+                  onPressed: controller.handleSignup,
+                  child: Text('Don\'t have an account? Sign Up'),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
