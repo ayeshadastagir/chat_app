@@ -4,6 +4,7 @@ import 'package:chat_app/views/chat_room_screen.dart';
 import 'package:chat_app/widgets/chat_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
 class Home extends StatelessWidget {
   Home({super.key});
   final HomeController controller = Get.put(HomeController());
@@ -42,10 +43,10 @@ class Home extends StatelessWidget {
                 title: Text(user.username),
                 subtitle: Text(user.email),
                 onTap: () {
-                  // TODO: Navigate to chat screen with user
-                  print("Tapped on: ${user.username}");
-                  print("${user}");
-                  Get.to(() => ChatRoomScreen(), arguments: {
+                  // // TODO: Navigate to chat screen with user
+                  // print("Tapped on: ${user.username}");
+                  // print("${user}");
+                  Get.offAll(() => ChatRoomScreen(), arguments: {
                     'id': user.id,
                     'email': user.email,
                     'name': user.username,

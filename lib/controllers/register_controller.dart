@@ -1,11 +1,9 @@
 import 'package:chat_app/views/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import '../services/auth_service.dart';
-import '../views/home.dart';
+import '../views/recent_chats_screen.dart';
 
-// Register Controller
 class RegisterController extends GetxController {
   final formKey = GlobalKey<FormState>();
   final nameController = TextEditingController();
@@ -29,7 +27,7 @@ class RegisterController extends GetxController {
           nameController.text,
         );
         _clearFields();
-        Get.offAll(Home());
+        Get.offAll(RecentChatsScreen());
         // AuthenticationService.instance.fetchUserData();
       } catch (e) {
         print("$e");

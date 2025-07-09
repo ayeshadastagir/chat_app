@@ -1,5 +1,5 @@
 import 'package:chat_app/services/auth_service.dart';
-import 'package:chat_app/views/home.dart';
+import 'package:chat_app/views/recent_chats_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -26,7 +26,7 @@ class LoginController extends GetxController {
         await AuthService.instance.signInWithEmailPassword(
             emailController.text, passwordController.text);
        _clearFields();
-        Get.offAll(Home());
+        Get.offAll(RecentChatsScreen());
       } catch (e) {
         print("$e");
       }

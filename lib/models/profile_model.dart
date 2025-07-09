@@ -9,7 +9,7 @@ class ProfileModel {
     required this.username,
     required this.email,
     DateTime? createdAt,
-  }) : createdAt =  DateTime.now().toUtc();
+  }) : createdAt =  DateTime.now().toLocal();
 
   factory ProfileModel.fromJson(Map<String, dynamic> json) {
     return ProfileModel(
@@ -17,8 +17,8 @@ class ProfileModel {
       username: json.containsKey('username') ? json['username'] ?? '' : '',
       email: json.containsKey('email') ? json['email'] ?? '' : '',
       createdAt: json.containsKey('created_at') && json['created_at'] != null
-          ? DateTime.parse(json['created_at']).toUtc()
-          : DateTime.now().toUtc(),
+          ? DateTime.parse(json['created_at']).toLocal()
+          : DateTime.now().toLocal(),
     );
   }
 

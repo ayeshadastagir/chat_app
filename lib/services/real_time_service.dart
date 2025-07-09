@@ -5,7 +5,6 @@ class RealtimeService {
   static final RealtimeService _instance = RealtimeService._internal();
   factory RealtimeService() => _instance;
   RealtimeService._internal();
-
   static RealtimeService get instance => _instance;
 
   final SupabaseClient _client = Supabase.instance.client;
@@ -44,6 +43,7 @@ class RealtimeService {
     _subscriptions[channelName] = channel;
     return channel;
   }
+
 
   /// Subscribe to message updates (for edit/delete functionality)
   // RealtimeChannel subscribeToMessageUpdates({

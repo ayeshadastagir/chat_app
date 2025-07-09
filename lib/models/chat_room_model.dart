@@ -9,7 +9,7 @@ class ChatRoomModel {
     required this.senderId,
     required this.receiverId,
     DateTime? createdAt,
-  }) : createdAt = createdAt ?? DateTime.now().toUtc();
+  }) : createdAt = createdAt ?? DateTime.now().toLocal();
 
   factory ChatRoomModel.fromJson(Map<String, dynamic> json) {
     return ChatRoomModel(
@@ -17,8 +17,8 @@ class ChatRoomModel {
       senderId: json.containsKey('sender_id') ? json['sender_id'] ?? '' : '',
       receiverId: json.containsKey('receiver_id') ? json['receiver_id'] ?? '' : '',
       createdAt: json.containsKey('created_at') && json['created_at'] != null
-          ? DateTime.parse(json['created_at']).toUtc()
-          : DateTime.now().toUtc(),
+          ? DateTime.parse(json['created_at']).toLocal()
+          : DateTime.now().toLocal(),
     );
   }
 

@@ -38,7 +38,61 @@ class ChatRoomService {
     }
   }
 
-  /// Get chatroom details by ID
+  Future<List<Map<String, dynamic>>> getUserRecentChats(String userID) async {
+    try {
+      // 1. Get all chatRooms where user is sender or receiver
+      final response = await _client
+          .from(SupabaseTables.chatroom)
+          .select('id, sender_id, receiver_id')
+          .or('sender_id.eq.$userID,receiver_id.eq.$userID')
+          .order('created_at', ascending: false);
+
+      final chatrooms = response as List;
+
+      // 2. For each chatroom, fetch last message + other user’s profile
+      List<Map<String, dynamic>> result = [];
+
+      for (var chat in chatrooms) {
+        final chatroomId = chat['id'];
+        final senderId = chat['sender_id'];
+        final receiverId = chat['receiver_id'];
+        final otherUserId = senderId == userID ? receiverId : senderId;
+
+        // Get other user profile
+        final profile = await _client
+            .from(SupabaseTables.userProfile)
+            .select('username, email')
+            .eq('id', otherUserId)
+            .maybeSingle();
+
+        // Get last message
+        final lastMessage = await _client
+            .from(SupabaseTables.messages)
+            .select()
+            .eq('chatroom_id', chatroomId)
+            .order('created_at', ascending: false)
+            .limit(1)
+            .maybeSingle();
+
+        result.add({
+          'chatroom_id': chatroomId,
+          'other_user_id': otherUserId,
+          'other_username': profile?['username'] ?? 'User',
+          'other_email': profile?['email'] ?? '',
+          'last_message': lastMessage?['content'],
+          'last_time': lastMessage?['created_at'],
+        });
+      }
+
+      return result;
+    } catch (e) {
+      throw Exception('Failed to get recent chats: $e');
+    }
+  }
+
+
+
+/// Get chatroom details by ID
   // Future<ChatRoomModel?> getChatroomById(String chatroomId) async {
   //   try {
   //     final response = await _client

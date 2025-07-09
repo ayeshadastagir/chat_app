@@ -11,7 +11,7 @@ class MessageModel {
     required this.chatroomId,
     required this.content,
     DateTime? createdAt,
-  }) : createdAt = createdAt ?? DateTime.now().toUtc();
+  }) : createdAt = createdAt ?? DateTime.now().toLocal();
 
   factory MessageModel.fromJson(Map<String, dynamic> json) {
     return MessageModel(
@@ -20,8 +20,8 @@ class MessageModel {
       chatroomId: json['chatroom_id'] ?? '',
       content: json['content'] ?? '',
       createdAt: json['created_at'] != null
-          ? DateTime.parse(json['created_at']).toUtc()
-          : DateTime.now().toUtc(),
+          ? DateTime.parse(json['created_at']).toLocal()
+          : DateTime.now().toLocal(),
     );
   }
 
